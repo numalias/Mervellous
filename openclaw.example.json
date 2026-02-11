@@ -1,0 +1,160 @@
+{
+  "$schema": "https://openclaw.ai/schema/config.json",
+
+  "gateway": {
+    "port": 18789,
+    "verbose": false
+  },
+
+  "agents": {
+    "defaults": {
+      "model": "anthropic/claude-sonnet-4-5",
+      "sandbox": {
+        "enabled": true,
+        "scope": "agent"
+      },
+      "memory": {
+        "enabled": true,
+        "provider": "lancedb"
+      },
+      "tools": {
+        "allow": ["read", "write", "edit", "exec", "web_search", "web_fetch", "memory_read", "memory_write"]
+      }
+    },
+
+    "list": [
+      {
+        "id": "merv",
+        "name": "Merv — Orchestrator",
+        "default": true,
+        "workspace": "~/.openclaw/mervellous/workspace-merv",
+        "model": "anthropic/claude-opus-4-6",
+        "sandbox": { "enabled": false },
+        "tools": {
+          "allow": [
+            "message", "memory_read", "memory_write",
+            "read", "write",
+            "sessions_list", "sessions_history", "sessions_send", "sessions_spawn"
+          ]
+        },
+        "subagents": {
+          "allowAgents": ["linus", "finch", "otto", "iris", "nova", "forge"]
+        }
+      },
+      {
+        "id": "linus",
+        "name": "Linus — Senior Developer",
+        "workspace": "~/.openclaw/mervellous/workspace-linus",
+        "model": "anthropic/claude-opus-4-6",
+        "sandbox": { "enabled": true, "scope": "agent", "runtime": "docker" },
+        "tools": {
+          "allow": [
+            "exec", "read", "write", "edit", "apply_patch",
+            "process", "browser", "memory_read", "memory_write",
+            "web_search", "web_fetch"
+          ]
+        }
+      },
+      {
+        "id": "finch",
+        "name": "Finch — Lead Researcher",
+        "workspace": "~/.openclaw/mervellous/workspace-finch",
+        "model": "anthropic/claude-sonnet-4-5",
+        "sandbox": { "enabled": true, "scope": "agent", "runtime": "docker" },
+        "tools": {
+          "allow": [
+            "read", "write", "web_search", "web_fetch",
+            "browser", "memory_read", "memory_write"
+          ]
+        }
+      },
+      {
+        "id": "otto",
+        "name": "Otto — Automation Engineer",
+        "workspace": "~/.openclaw/mervellous/workspace-otto",
+        "model": "anthropic/claude-sonnet-4-5",
+        "sandbox": { "enabled": true, "scope": "agent", "runtime": "docker" },
+        "tools": {
+          "allow": [
+            "cron", "exec", "read", "write",
+            "web_fetch", "process", "memory_read", "memory_write"
+          ]
+        }
+      },
+      {
+        "id": "iris",
+        "name": "Iris — Content Writer",
+        "workspace": "~/.openclaw/mervellous/workspace-iris",
+        "model": "anthropic/claude-sonnet-4-5",
+        "sandbox": { "enabled": true, "scope": "agent", "runtime": "docker" },
+        "tools": {
+          "allow": [
+            "read", "write", "edit",
+            "web_search", "web_fetch", "memory_read", "memory_write"
+          ]
+        }
+      },
+      {
+        "id": "nova",
+        "name": "Nova — Data Analyst",
+        "workspace": "~/.openclaw/mervellous/workspace-nova",
+        "model": "anthropic/claude-sonnet-4-5",
+        "sandbox": { "enabled": true, "scope": "agent", "runtime": "docker" },
+        "tools": {
+          "allow": [
+            "exec", "read", "write",
+            "web_search", "web_fetch", "browser",
+            "memory_read", "memory_write"
+          ]
+        }
+      },
+      {
+        "id": "forge",
+        "name": "Forge — DevOps Engineer",
+        "workspace": "~/.openclaw/mervellous/workspace-forge",
+        "model": "anthropic/claude-sonnet-4-5",
+        "sandbox": { "enabled": true, "scope": "agent", "runtime": "docker" },
+        "tools": {
+          "allow": [
+            "exec", "read", "write", "edit",
+            "process", "cron", "web_fetch",
+            "memory_read", "memory_write"
+          ]
+        }
+      }
+    ]
+  },
+
+  "bindings": [
+    { "agentId": "merv", "match": { "channel": "telegram" } },
+    { "agentId": "merv", "match": { "channel": "discord" } },
+    { "agentId": "merv", "match": { "channel": "whatsapp" } },
+    { "agentId": "merv", "match": { "channel": "slack" } },
+    { "agentId": "merv", "match": { "channel": "cli" } }
+  ],
+
+  "channels": {
+    "telegram": {
+      "enabled": false,
+      "botToken": "${TELEGRAM_BOT_TOKEN}"
+    },
+    "discord": {
+      "enabled": false,
+      "botToken": "${DISCORD_BOT_TOKEN}"
+    },
+    "whatsapp": {
+      "enabled": false
+    },
+    "slack": {
+      "enabled": false,
+      "botToken": "${SLACK_BOT_TOKEN}",
+      "appToken": "${SLACK_APP_TOKEN}"
+    }
+  },
+
+  "credentials": {
+    "anthropic": "${ANTHROPIC_API_KEY}",
+    "openai": "${OPENAI_API_KEY}",
+    "openrouter": "${OPENROUTER_API_KEY}"
+  }
+}

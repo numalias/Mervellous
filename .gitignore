@@ -1,0 +1,22 @@
+# Environment & secrets
+.env
+.env.local
+*.key
+credentials/
+
+# OpenClaw runtime
+.openclaw/
+sessions/
+*.jsonl
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+dist/
+*.log
+
+# Docker
+docker-compose.override.yml
