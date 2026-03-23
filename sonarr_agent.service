@@ -5,9 +5,9 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-User=pi
-WorkingDirectory=/home/pi/Mervellous
-ExecStart=/usr/bin/python3 /home/pi/Mervellous/sonarr_agent.py
+User=dietpi
+WorkingDirectory=/home/dietpi/Mervallous
+ExecStart=/usr/bin/python3 /home/dietpi/Mervallous/sonarr_agent.py
 Restart=on-failure
 RestartSec=10
 
