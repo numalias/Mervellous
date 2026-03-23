@@ -1,0 +1,25 @@
+[Unit]
+Description=Sonarr Agent - Relay GitHub Issues -> Sonarr
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/Mervellous
+ExecStart=/usr/bin/python3 /home/pi/Mervellous/sonarr_agent.py
+Restart=on-failure
+RestartSec=10
+
+# Variables de entorno (edita con tu token real)
+Environment=GITHUB_TOKEN=TU_GITHUB_TOKEN_AQUI
+Environment=GITHUB_REPO=numalias/Mervellous
+Environment=SONARR_URL=http://192.168.5.200:8989
+Environment=SONARR_API_KEY=4e0241f275944c83b775c024d5fa83c8
+Environment=POLL_INTERVAL=20
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
